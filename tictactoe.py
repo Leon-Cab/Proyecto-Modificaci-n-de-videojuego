@@ -28,19 +28,36 @@ def grid():
 
 
 def drawx(x, y):
-    """Dibuja el símbolo 'X' (Jugador 0) en la casilla correspondiente."""
-    # Dibuja la primera línea diagonal (de abajo-izquierda a arriba-derecha)
-    line(x, y, x + 133, y + 133)
-    # Dibuja la segunda línea diagonal (de arriba-izquierda a abajo-derecha)
-    line(x, y + 133, x + 133, y)
+    """Dibuja el símbolo 'X' (Jugador 0) en la casilla correspondiente con color azul, grosor y centrado."""
+    color('blue')      # Cambia el color a azul
+    width(5)           # Define un grosor de línea de 5
+    
+    # Margen para centrar la X en la casilla de 133x133 sin tocar los bordes
+    margin = 25
+    
+    # Dibuja la primera línea diagonal centrada
+    up()
+    goto(x + margin, y + margin)
+    down()
+    goto(x + 133 - margin, y + 133 - margin)
+    
+    # Dibuja la segunda línea diagonal centrada
+    up()
+    goto(x + margin, y + 133 - margin)
+    down()
+    goto(x + 133 - margin, y + margin)
 
 
 def drawo(x, y):
-    """Dibuja el símbolo 'O' (Jugador 1) en la casilla correspondiente."""
-    up()  # Levanta el lápiz para no dejar rastro al mover la tortuga
-    goto(x + 67, y + 5)  # Se posiciona en la base donde trazará el círculo
-    down()  # Baja el lápiz para empezar a dibujar
-    circle(62)  # Dibuja un círculo de radio 62 unidades
+    """Dibuja el símbolo 'O' (Jugador 1) en la casilla correspondiente con color rojo, grosor y centrado."""
+    color('red')       # Cambia el color a rojo
+    width(5)           # Define un grosor de línea de 5
+    
+    # Posiciona y dibuja el círculo exactamente en el centro de la casilla
+    up()
+    goto(x + 66.5, y + 20)  # Punto inferior central para el trazado del círculo
+    down()
+    circle(46.5)            # Radio ajustado para que quede perfectamente centrado
 
 
 def floor(value):
