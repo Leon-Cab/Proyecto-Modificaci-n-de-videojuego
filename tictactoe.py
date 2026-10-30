@@ -66,8 +66,8 @@ def floor(value):
     return ((value + 200) // 133) * 133 - 200
 
 
-# 'state' guarda el estado actual del juego. 'player' 0 representa la X, y 1 representa el O.
-state = {'player': 0}
+# 'state' guarda el estado actual del juego: el turno del jugador y las casillas ocupadas
+state = {'player': 0, 'board': {}}
 
 # Lista con las funciones encargadas de dibujar cada símbolo
 players = [drawx, drawo]
@@ -79,8 +79,15 @@ def tap(x, y):
     x = floor(x)
     y = floor(y)
     
+    # Valida si la casilla ya está ocupada; si es así, ignora la acción
+    if (x, y) in state['board']:
+        return
+    
     # Obtiene el turno del jugador actual (0 o 1)
     player = state['player']
+    
+    # Registra la casilla como ocupada por el jugador actual
+    state['board'][(x, y)] = player
     
     # Selecciona la función de dibujo correspondiente (drawx o drawo)
     draw = players[player]
