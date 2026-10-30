@@ -1,2 +1,2 @@
-# Proyecto-Modificaci-n-de-videojuego
+# Proyecto-Modificacion-de-videojuego
 Proyecto Modificación de videojuego
