@@ -19,11 +19,13 @@ path = Turtle(visible=False)
 writer = Turtle(visible=False)
 aim = vector(5, 0)
 pacman = vector(-40, -80)
+# CAMBIO 3: los fantasmas avanzan 10 px por ciclo (antes 5), el doble de rapido.
+# Pacman sigue avanzando 5 px, asi que ahora los fantasmas son mas veloces que el.
 ghosts = [
-    [vector(-180, 160), vector(5, 0)],
-    [vector(-180, -160), vector(0, 5)],
-    [vector(100, 160), vector(0, -5)],
-    [vector(100, -160), vector(-5, 0)],
+    [vector(-180, 160), vector(10, 0)],
+    [vector(-180, -160), vector(0, 10)],
+    [vector(100, 160), vector(0, -10)],
+    [vector(100, -160), vector(-10, 0)],
 ]
 # fmt: off
 # CAMBIO 1: tablero nuevo (0 = pared, 1 = camino con comida).
@@ -152,11 +154,12 @@ def move():
         if valid(point + course):
             point.move(course)
         else:
+            # Las nuevas direcciones tambien usan velocidad 10
             options = [
-                vector(5, 0),
-                vector(-5, 0),
-                vector(0, 5),
-                vector(0, -5),
+                vector(10, 0),
+                vector(-10, 0),
+                vector(0, 10),
+                vector(0, -10),
             ]
             plan = choice(options)
             course.x = plan.x
