@@ -66,8 +66,44 @@ def floor(value):
     return ((value + 200) // 133) * 133 - 200
 
 
-# 'state' guarda el estado actual del juego: el turno del jugador y las casillas ocupadas
-state = {'player': 0, 'board': {}}
+# Coordenadas exactas de las 9 casillas del tablero
+coords = [-200.0, -67.0, 66.0]
+
+# Generación de las 8 combinaciones posibles para ganar (3 filas, 3 columnas, 2 diagonales)
+winning_combos = (
+    [[(x, y) for x in coords] for y in coords] +  # Filas
+    [[(x, y) for y in coords] for x in coords] +  # Columnas
+    [[(coords[i], coords[i]) for i in range(3)]] +  # Diagonal principal
+    [[(coords[i], coords[2 - i]) for i in range(3)]]  # Diagonal secundaria
+)
+
+
+def check_win():
+    """Verifica si algún jugador ha completado 3 en línea o si la partida terminó en empate."""
+    board = state['board']
+    
+    # Comprueba si alguna combinación tiene el mismo jugador en las 3 casillas
+    for combo in winning_combos:
+        if combo[0] in board and board[combo[0]] == board.get(combo[1]) == board.get(combo[2]):
+            return f"¡Ganó el Jugador {'X' if board[combo[0]] == 0 else 'O'}!"
+            
+    # Si las 9 casillas están llenas y nadie ganó, es un empate
+    if len(board) == 9:
+        return "¡Es un Empate!"
+        
+    return None
+
+
+def show_message(msg):
+    """Muestra el mensaje final del resultado sobre la pantalla."""
+    up()
+    goto(0, 0)
+    color('black')
+    write(msg, align='center', font=('Arial', 24, 'bold'))
+
+
+# 'state' guarda el turno del jugador, casillas ocupadas y bandera de juego terminado
+state = {'player': 0, 'board': {}, 'game_over': False}
 
 # Lista con las funciones encargadas de dibujar cada símbolo
 players = [drawx, drawo]
@@ -75,11 +111,15 @@ players = [drawx, drawo]
 
 def tap(x, y):
     """Maneja el evento del clic del usuario en la pantalla."""
+    # Si el juego ya terminó, ignora cualquier otro clic
+    if state['game_over']:
+        return
+
     # Redondea las coordenadas del clic para alinearlas a la casilla más cercana
     x = floor(x)
     y = floor(y)
     
-    # Valida si la casilla ya está ocupada; si es así, ignora la acción
+    # Valida si la casilla ya está ocupada
     if (x, y) in state['board']:
         return
     
@@ -89,15 +129,21 @@ def tap(x, y):
     # Registra la casilla como ocupada por el jugador actual
     state['board'][(x, y)] = player
     
-    # Selecciona la función de dibujo correspondiente (drawx o drawo)
+    # Selecciona y ejecuta la función de dibujo correspondiente (drawx o drawo)
     draw = players[player]
-    
-    # Ejecuta el dibujo del símbolo en la casilla alineada
     draw(x, y)
     
-    # Refresca el lienzo para mostrar los cambios en pantalla
+    # Refresca el lienzo para mostrar los cambios
     update()
     
+    # Revisa si hay un ganador o empate
+    result = check_win()
+    if result:
+        state['game_over'] = True
+        show_message(result)
+        update()
+        return
+
     # Cambia de turno: de 0 (falso) a 1 (verdadero) o viceversa
     state['player'] = not player
 
