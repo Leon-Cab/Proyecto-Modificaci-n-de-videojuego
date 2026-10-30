@@ -1,3 +1,4 @@
+#Detectar cuando todos los cuadros se han destapado.
 """Memory, puzzle game of number pairs.
 
 Exercises:
@@ -8,7 +9,6 @@ Exercises:
 4. Center single-digit tile.
 5. Use letters instead of tiles.
 """
-
 from random import *
 from turtle import *
 
@@ -18,9 +18,7 @@ car = path('car.gif')
 tiles = list(range(32)) * 2
 state = {'mark': None}
 hide = [True] * 64
-
-# Contador de pares encontrados
-pairs = 0
+pairs = 0  
 
 
 def square(x, y):
@@ -30,9 +28,11 @@ def square(x, y):
     down()
     color('black', 'white')
     begin_fill()
+
     for count in range(4):
         forward(50)
         left(90)
+
     end_fill()
 
 
@@ -48,7 +48,8 @@ def xy(count):
 
 def tap(x, y):
     """Update mark and hidden tiles based on tap."""
-    global pairs
+
+    global pairs      # <-- NUEVO
 
     spot = index(x, y)
     mark = state['mark']
@@ -58,7 +59,9 @@ def tap(x, y):
     else:
         hide[spot] = False
         hide[mark] = False
-        pairs += 1      # Sumar un par encontrado
+
+        pairs += 1    # <-- NUEVO
+
         state['mark'] = None
 
 
@@ -83,17 +86,18 @@ def draw():
         color('black')
         write(tiles[mark], font=('Arial', 30, 'normal'))
 
-    # Mostrar pares descubiertos
+    # MOSTRAR PARES ENCONTRADOS  <-- NUEVO
     up()
-    goto(-190, 180)
+    goto(-190, 170)
     color('red')
     write(
-        "Pares encontrados: " + str(pairs),
+        f'Pares encontrados: {pairs}',
         font=('Arial', 14, 'bold')
     )
 
     update()
     ontimer(draw, 100)
+
 
 shuffle(tiles)
 setup(420, 420, 370, 0)
