@@ -1,4 +1,4 @@
-# Proyecto-Modificacion-de-videojuego
+## Proyecto-Modificacion-de-videojuego
 
 Proyecto Modificación de videojuego
 Datos TicTacToe:
@@ -38,3 +38,14 @@ La velocidad de los fantasmas pasó de 5 a **10 px por ciclo**, tanto en `ghosts
 | 1 | `pacman_v1.py` | Tablero nuevo |
 | 2 | `pacman_v2.py` | + comida en rombo naranja |
 | 3 | `pacman_v3.py` | + fantasmas al doble de velocidad |
+
+#Datos Juego de Memoria
+Alumno: Sarah Martínez Gaviña
+Matricula: A01714850
+
+Juego de Memoria: Este juego consiste en encontrar parejas de cartas iguales dentro de un tablero. El jugador debe destapar dos casillas por turno y recordar la ubicación de las figuras para descubrir todas las parejas en la menor cantidad de intentos posible.
+
+Resumen de cambios: Se modificó inicialmente el proyecto analizando la lógica base del juego de memoria y añadiendo comentarios explicativos para facilitar la comprensión de las funciones encargadas del manejo de las fichas, el tablero y la interacción del usuario.
+Posteriormente, se implementó un contador de parejas descubiertas, permitiendo llevar un registro del progreso del jugador durante la partida y desplegando esta información de manera visible en pantalla cada vez que se encuentra una nueva coincidencia.
+Más adelante, se modificó la lógica principal del juego incorporando una verificación automática que detecta cuándo todas las parejas han sido encontradas. Gracias a esta validación, el programa puede identificar el final de la partida y mostrar un mensaje indicando que el juego ha sido completado exitosamente.
+Finalmente, se realizó una modificación en la estructura del tablero cambiando el número de casillas disponibles. Este ajuste requirió actualizar la configuración de las fichas y la distribución de los elementos dentro del área de juego para mantener un funcionamiento correcto y una presentación ordenada del tablero.
