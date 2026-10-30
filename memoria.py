@@ -1,3 +1,4 @@
+#Modificaciones: pares encontrados, fin del juego y número de casillas.
 from random import *
 from turtle import *
 
@@ -8,8 +9,10 @@ car = path('car.gif')
 # MODIFICACIÓN: dimensiones del tablero configurables (antes eran fijas: 8x8 = 64 casillas).
 # Para cambiar el número de casillas basta con modificar ROWS y COLUMNS.
 # El total de casillas (ROWS * COLUMNS) debe ser par para poder formar pares.
-ROWS = 6
-COLUMNS = 6
+# MODIFICACIÓN: se cambia el número de casillas del tablero
+# (antes: 6x6 = 36 casillas; ahora: 4x4 = 16 casillas, es decir, 8 pares)
+ROWS = 4
+COLUMNS = 4
 TILE_SIZE = 50  # MODIFICACIÓN: tamaño en píxeles de cada casilla
 assert (ROWS * COLUMNS) % 2 == 0, 'El número de casillas debe ser par'
 
@@ -99,20 +102,23 @@ def draw():
     # Se despliega el contador de pares sobre el tablero
     # MODIFICACIÓN: la posición se calcula según el tamaño del tablero
     up()
-    goto(ORIGIN_X, ORIGIN_Y + HEIGHT + 5)
+    # MODIFICACIÓN: el texto se centra en x = 0 (align='center') para que no se
+    # corte cuando el tablero es pequeño
+    goto(0, ORIGIN_Y + HEIGHT + 5)
     color('black')
     write('Pares descubiertos: {} / {}'.format(state['pairs'], TOTAL_PAIRS),
-          font=('Arial', 16, 'bold'))
+          align='center', font=('Arial', 16, 'bold'))
 
     # MODIFICACIÓN: se detecta que todos los cuadros fueron destapados
     # (ya no queda ninguna casilla oculta en la lista 'hide')
     if not any(hide):
         # Se despliega un mensaje debajo del tablero
         up()
-        goto(ORIGIN_X, ORIGIN_Y - 25)
+        # MODIFICACIÓN: el mensaje también se centra en x = 0
+        goto(0, ORIGIN_Y - 25)
         color('green')
         write('¡Todos los cuadros fueron destapados!',
-              font=('Arial', 14, 'bold'))
+              align='center', font=('Arial', 14, 'bold'))
 
     update()
     ontimer(draw, 100)
@@ -121,7 +127,9 @@ def draw():
 shuffle(tiles)
 # MODIFICACIÓN: el tamaño de la ventana se ajusta al tamaño del tablero
 # (antes: setup(420, 500, 370, 0)); se deja espacio extra para el contador
-setup(WIDTH + 20, HEIGHT + 60, 370, 0)
+# MODIFICACIÓN: se fija un ancho mínimo de ventana (420) para que los textos
+# quepan aunque el tablero tenga pocas columnas
+setup(max(WIDTH + 20, 420), HEIGHT + 60, 370, 0)
 addshape(car)
 hideturtle()
 tracer(False)
