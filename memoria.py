@@ -19,6 +19,9 @@ tiles = list(range(32)) * 2
 state = {'mark': None}
 hide = [True] * 64
 
+# Contador de pares encontrados
+pairs = 0
+
 
 def square(x, y):
     """Draw white square with black outline at (x, y)."""
@@ -45,6 +48,8 @@ def xy(count):
 
 def tap(x, y):
     """Update mark and hidden tiles based on tap."""
+    global pairs
+
     spot = index(x, y)
     mark = state['mark']
 
@@ -53,6 +58,7 @@ def tap(x, y):
     else:
         hide[spot] = False
         hide[mark] = False
+        pairs += 1      # Sumar un par encontrado
         state['mark'] = None
 
 
@@ -77,9 +83,17 @@ def draw():
         color('black')
         write(tiles[mark], font=('Arial', 30, 'normal'))
 
+    # Mostrar pares descubiertos
+    up()
+    goto(-190, 180)
+    color('red')
+    write(
+        "Pares encontrados: " + str(pairs),
+        font=('Arial', 14, 'bold')
+    )
+
     update()
     ontimer(draw, 100)
-
 
 shuffle(tiles)
 setup(420, 420, 370, 0)
