@@ -68,6 +68,23 @@ def square(x, y):
     path.end_fill()
 
 
+def food(x, y):
+    """Draw food as an orange diamond inside the tile at (x, y)."""
+    # CAMBIO 2: el alimento ahora es un rombo naranja en lugar de un punto blanco.
+    path.color('orange')
+    path.up()
+    path.goto(x + 10, y + 5)
+    path.down()
+    path.begin_fill()
+    path.goto(x + 15, y + 10)
+    path.goto(x + 10, y + 15)
+    path.goto(x + 5, y + 10)
+    path.goto(x + 10, y + 5)
+    path.end_fill()
+    path.up()
+    path.color('blue')  # se restaura el azul para seguir dibujando paredes
+
+
 def offset(point):
     """Return offset of point in tiles."""
     x = (floor(point.x, 20) + 200) / 20
@@ -105,9 +122,7 @@ def world():
             square(x, y)
 
             if tile == 1:
-                path.up()
-                path.goto(x + 10, y + 10)
-                path.dot(2, 'white')
+                food(x, y)  # antes: path.dot(2, 'white')
 
 
 def move():
