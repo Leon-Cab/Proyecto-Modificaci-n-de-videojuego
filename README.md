@@ -39,7 +39,7 @@ La velocidad de los fantasmas pasó de 5 a **10 px por ciclo**, tanto en `ghosts
 | 2 | `pacman_v2.py` | + comida en rombo naranja |
 | 3 | `pacman_v3.py` | + fantasmas al doble de velocidad |
 
-#Datos Juego de Memoria
+**#Datos Juego de Memoria**
 Alumno: Sarah Martínez Gaviña
 Matricula: A01714850
 
