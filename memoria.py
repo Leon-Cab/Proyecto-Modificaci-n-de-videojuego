@@ -1,29 +1,12 @@
-"""Memory, puzzle game of number pairs.
-
-Exercises:
-
-1. Count and print how many taps occur.
-2. Decrease the number of tiles to a 4x4 grid.
-3. Detect when all tiles are revealed.
-4. Center single-digit tile.
-5. Use letters instead of tiles.
-"""
-
 from random import *
 from turtle import *
 
 from freegames import path
 
 car = path('car.gif')
-
-# 4x4 = 16 casillas = 8 parejas
-tiles = list(range(8)) * 2
-
+tiles = list(range(32)) * 2
 state = {'mark': None}
-hide = [True] * 16
-
-pairs = 0
-game_over = False
+hide = [True] * 64
 
 
 def square(x, y):
@@ -33,65 +16,43 @@ def square(x, y):
     down()
     color('black', 'white')
     begin_fill()
-
     for count in range(4):
         forward(50)
         left(90)
-
     end_fill()
 
 
 def index(x, y):
     """Convert (x, y) coordinates to tiles index."""
-    return int((x + 100) // 50 + ((y + 100) // 50) * 4)
+    return int((x + 200) // 50 + ((y + 200) // 50) * 8)
 
 
 def xy(count):
     """Convert tiles count to (x, y) coordinates."""
-    return (count % 4) * 50 - 100, (count // 4) * 50 - 100
+    return (count % 8) * 50 - 200, (count // 8) * 50 - 200
 
 
 def tap(x, y):
     """Update mark and hidden tiles based on tap."""
-
-    global pairs, game_over
-
-    if game_over:
-        return
-
     spot = index(x, y)
-
-    # Evita errores si se hace clic fuera del tablero
-    if spot < 0 or spot >= 16:
-        return
-
     mark = state['mark']
 
     if mark is None or mark == spot or tiles[mark] != tiles[spot]:
         state['mark'] = spot
-
     else:
         hide[spot] = False
         hide[mark] = False
-
-        pairs += 1
-
         state['mark'] = None
-
-        # Detectar cuando todas las casillas están descubiertas
-        if all(not tile for tile in hide):
-            game_over = True
 
 
 def draw():
     """Draw image and tiles."""
     clear()
-
     goto(0, 0)
     shape(car)
     stamp()
 
-    for count in range(16):
+    for count in range(64):
         if hide[count]:
             x, y = xy(count)
             square(x, y)
@@ -100,49 +61,20 @@ def draw():
 
     if mark is not None and hide[mark]:
         x, y = xy(mark)
-
         up()
-        goto(x + 15, y + 10)
+        goto(x + 2, y)
         color('black')
-
-        write(
-            tiles[mark],
-            font=('Arial', 20, 'normal')
-        )
-
-    # Mostrar pares encontrados
-    up()
-    goto(-110, 120)
-    color('red')
-
-    write(
-        f'Pares encontrados: {pairs}',
-        font=('Arial', 14, 'bold')
-    )
-
-    # Mostrar mensaje de victoria
-    if game_over:
-        goto(-80, -140)
-        color('green')
-
-        write(
-            '¡GANASTE!',
-            font=('Arial', 24, 'bold')
-        )
+        write(tiles[mark], font=('Arial', 30, 'normal'))
 
     update()
     ontimer(draw, 100)
 
 
 shuffle(tiles)
-
-setup(300, 300, 370, 0)
-
+setup(420, 420, 370, 0)
 addshape(car)
 hideturtle()
 tracer(False)
-
 onscreenclick(tap)
-
 draw()
 done()
